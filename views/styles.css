@@ -1,0 +1,39 @@
+body {
+    background-image: url('img_s/mine05.png');
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+
+.bg-nav{
+    background-image: url('img_s/mine05.png');
+    background-size: cover; 
+    background-repeat: no-repeat;
+}
+
+@font-face {
+    font-family: 'Pixelify';
+    src: url('fonts/PixelifySans-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal; 
+}
+
+@font-face {
+    font-family: 'Pixelify';
+    src: url('fonts/PixelifySans-VariableFont_wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal; 
+}
+
+h1, h2, h3, h4, h5, a, p, span{
+    font-family: 'Pixelify';
+    font-weight: normal; 
+}
+
+.font-pixel{
+    font-family: 'Pixelify';
+    font-weight: normal; 
+}
+
+.btn-border{
+    border: 1px solid black !important;
+}
