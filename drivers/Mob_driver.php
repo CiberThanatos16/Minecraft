@@ -4,24 +4,34 @@ require_once __DIR__ . '/../app/Mobs.php';
 class Mob_driver
 {
 
-    public function index(){
-        $filter = isset($_GET['filter']) ? $_GET['filter']: '';
-        if ($filter){
+    public function index()
+    {
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : '';
+        if ($filter) {
             $mob = Mobs::search($filter);
-        }else{
+        } else {
             $mob = Mobs::read();
         }
         include __DIR__ . '/../pages/index.php';
     }
 
-    public function busqueda(){
-        $search = isset($_GET['buscar']) ? $_GET['buscar']: '';
-        $mobs=[];
+    public function busqueda()
+    {
+        $search = isset($_GET['buscar']) ? $_GET['buscar'] : '';
+        $mobs = [];
 
-        if($search){
+        if ($search) {
             $mobs = Mobs::search($search);
         }
-        include __DIR__. '/../pages/buscar.php';
+        include __DIR__ . '/../pages/buscar.php';
+    }
+
+
+    public function mob_select()
+    {
+        $id_mob = $_GET['id_mob'];
+        $mob = Mobs::read_one($id_mob);
+        include __DIR__ . '/../pages/mob.php';
     }
 
     public function guardar()
@@ -34,7 +44,7 @@ class Mob_driver
         $nombre = $_POST['nombreM'];
         $tipo = $_POST['tipo'];
         $descripcion = $_POST['des'];
-        
+
 
         if (isset($_FILES['imgM']) && $_FILES['imgM']['error'] == 0) {
             $fileN = time() . '_' . basename($_FILES['imgM']['name']);
@@ -70,6 +80,11 @@ class Mob_driver
         include __DIR__ . '/../pages/edit.php';
     }
 
+    public function ajustes()
+    {
+        include_once __DIR__ . '/../pages/ajustes.php';
+    }
+
     public function Actualizar()
     {
         $id_mob = $_POST['idM'];
@@ -78,9 +93,9 @@ class Mob_driver
         $descripcion = $_POST['des'];
 
         $mobData = Mobs::read_one($id_mob);
-        $img = $mobData['imgM'];
+        $img = $mobData['img_mob'];
 
-        if (isset($_FILES['imgM']) && $_FILES['imgM']['error'] === 0) {
+        if (isset($_FILES['imgM']) && $_FILES['imgM']['error'] == 0) {
             $fileN = time() . '_' . basename($_FILES['imgM']['name']);
             $uploadP = __DIR__ . '/../views/img_mobs/' . $fileN;
             if (move_uploaded_file($_FILES['imgM']['tmp_name'], $uploadP)) {
@@ -89,7 +104,7 @@ class Mob_driver
         }
         $mobs = new Mobs($id_mob, $nombre, $tipo, $descripcion, $img);
         $mobs->Actualizar();
-        header("Location: index.php");
+        echo '<script>window.location.href = "index.php";</script>';
         exit;
     }
 
@@ -101,6 +116,4 @@ class Mob_driver
         header("Location: index.php");
         exit;
     }
-
-
 }

@@ -1,56 +1,41 @@
-const canvas = document.getElementById('miCanvasCr');
-const ctx = canvas.getContext('2d');
-const img = document.getElementById('imagenBotonCr');
-
 const pixelSize = 4;
-const heartPixels = [
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
-    [1,0,0,1,1,0,0,1],
-    [1,0,0,1,1,0,0,1],
-    [1,1,1,0,0,1,1,1],
-    [1,1,0,0,0,0,1,1],
-    [1,1,0,1,1,0,1,1],
-    [1,1,1,1,1,1,1,1],
+const creeperPixels = [
+  [1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1],
+  [1,0,0,1,1,0,0,1],
+  [1,0,0,1,1,0,0,1],
+  [1,1,1,0,0,1,1,1],
+  [1,1,0,0,0,0,1,1],
+  [1,1,0,1,1,0,1,1],
+  [1,1,1,1,1,1,1,1]
 ];
 
-// Función para dibujar el corazón con una escala
-function drawHeart(scale = 1) {
-  const size = pixelSize * scale;
-  const offset = (canvas.width - heartPixels[0].length * size) / 2;
+function drawCreeperOnCanvas(canvascId, colorc, imgcId) {
+  const canvasc = document.getElementById(canvascId);
+  const ctx = canvasc.getContext('2d');
+  const imgc = document.getElementById(imgcId);
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const size = pixelSize;
+  const offsetX = (canvasc.width - creeperPixels[0].length * size) / 2;
+  const offsetY = (canvasc.height - creeperPixels.length * size) / 2;
 
-  for (let y = 0; y < heartPixels.length; y++) {
-    for (let x = 0; x < heartPixels[y].length; x++) {
-      if (heartPixels[y][x] === 1) {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(offset + x * size, offset + y * size, size, size);
+  ctx.clearRect(0, 0, canvasc.width, canvasc.height);
+
+  for (let y = 0; y < creeperPixels.length; y++) {
+    for (let x = 0; x < creeperPixels[y].length; x++) {
+      if (creeperPixels[y][x] === 1) {
+        ctx.fillStyle = colorc;
+        ctx.fillRect(offsetX + x * size, offsetY + y * size, size, size);
       }
     }
   }
 
-  // Actualiza la imagen del botón
-  img.src = canvas.toDataURL();
-}
-
-// Animación de palpitación
-let scale = 1;
-let growing = true;
-
-function animate() {
-  drawHeart(scale);
-
-  if (growing) {
-    scale += 0.001;
-    if (scale >= 1.2) growing = false;
-  } else {
-    scale -= 0.001;
-    if (scale <= 1) growing = true;
+  if (imgc) {
+    imgc.src = canvasc.toDataURL();
   }
-
-  requestAnimationFrame(animate);
 }
 
-// Iniciar animación
-animate();
+// Asegúrate de que este código se ejecute después de que el DOM esté cargado
+document.addEventListener('DOMContentLoaded', () => {
+  drawCreeperOnCanvas('Creeper', '#00aa00', 'imgCR');
+});
